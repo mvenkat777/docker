@@ -1,0 +1,29 @@
+version: '3'
+services:
+    php-apache:
+        build:
+          context: ./
+          dockerfile: phpapache.Dockerfile
+        ports:
+            - 8081:80
+        volumes:
+            - /Users/venkatma/code/legal-entity-api:/var/www/html:z
+        links:
+            - 'mariadb'
+    mariadb:
+        build:
+          context: ./
+          dockerfile: mariadb.Dockerfile
+        volumes:
+            - mariadb:/var/lib/mysql
+        environment:
+            TZ: "Europe/Rome"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "rootpwd"
+            MYSQL_USER: 'venkatma'
+            MYSQL_PASSWORD: 'mallina'
+            MYSQL_DATABASE: 'legalentity'
+        ports:
+          - 3306:3306
+volumes:
+    mariadb:
